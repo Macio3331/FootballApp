@@ -1,7 +1,8 @@
-# Football League Games Management System
+# Football App
 
 ## Overview
-The Football League Games Management System is a Java EE project implemented with Hibernate, aimed at managing football league competitions. It encompasses entities such as clubs, players, matches, and goals.
+The Football App is a Java EE project implemented with Hibernate, aimed at managing football league competitions. It encompasses entities such as clubs, players, matches, and goals.
+The Football App also provides a user-friendly web interface for entities management
 
 ## Features
 - **Club Management**: Add, update, and remove football clubs participating in the league.
@@ -12,3 +13,16 @@ The Football League Games Management System is a Java EE project implemented wit
 ## Technologies Used
 - **Java EE**: Platform for building enterprise applications using Java.
 - **Hibernate**: Object-relational mapping (ORM) tool for mapping Java objects to database tables.
+- **npm**: Modern Node.js' package manager tool for frontend files and code management.
+- **React**: JavaScript library for building user interfaces, especially single-page applications (SPAs).
+
+## Run & Deployment
+- Project needs jdk and eclipse installed in the clone folder, node.js installed together with npm package manager.
+- To run a backend server run "start_server.bat" file.
+- To run a frontend go into "frontend" directory, open a command line and run commands:
+
+  ```bash
+  npm i
+  npm run build
+  npm start
+  ```
