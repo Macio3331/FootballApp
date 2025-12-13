@@ -1,3 +1,5 @@
+/jdk
+/eclipse
 /wildfly-10.1.0.Final/standalone/deployments
 /sql-tools
 /workspace/.metadata
