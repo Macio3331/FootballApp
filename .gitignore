@@ -1,6 +1,4 @@
-/eclipse
-/jdk
-/wildfly-10.1.0.Final
+/wildfly-10.1.0.Final/standalone/deployments
 /sql-tools
 /workspace/.metadata
 /workspace/take/WebContent/WEB-INF/classes/.gitignore
