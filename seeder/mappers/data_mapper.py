@@ -16,6 +16,9 @@ class DataMapper:
         
         # Mapowanie graczy do klubów (backend_club_id -> lista backend_player_id)
         self.club_players: Dict[int, List[int]] = {}
+        
+        # Śledzenie użytych numerów w klubach (backend_club_id -> set of used numbers)
+        self.club_used_numbers: Dict[int, set] = {}
 
     def reset_mappings(self):
         """Resetuje wszystkie mapowania ID."""
@@ -23,6 +26,36 @@ class DataMapper:
         self.player_id_mapping.clear()
         self.match_id_mapping.clear()
         self.club_players.clear()
+        self.club_used_numbers.clear()
+    
+    def get_unique_number(self, backend_club_id: int, preferred_number: int) -> int:
+        """
+        Zwraca unikalny numer dla zawodnika w klubie.
+        
+        Args:
+            backend_club_id: ID klubu w backendzie
+            preferred_number: Preferowany numer (z API)
+            
+        Returns:
+            Unikalny numer dla zawodnika
+        """
+        if backend_club_id not in self.club_used_numbers:
+            self.club_used_numbers[backend_club_id] = set()
+        
+        used = self.club_used_numbers[backend_club_id]
+        
+        # Jeśli preferowany numer jest dostępny i > 0, użyj go
+        if preferred_number and preferred_number > 0 and preferred_number not in used:
+            used.add(preferred_number)
+            return preferred_number
+        
+        # Znajdź pierwszy wolny numer (zaczynając od 1)
+        next_num = 1
+        while next_num in used:
+            next_num += 1
+        
+        used.add(next_num)
+        return next_num
 
     def map_position(self, api_position: Optional[str]) -> str:
         """
@@ -91,16 +124,16 @@ class DataMapper:
         first_name = name_parts[0] if len(name_parts) > 0 else "Unknown"
         surname = name_parts[1] if len(name_parts) > 1 else ""
         
-        number = api_player.get("number")
-        if number is None:
-            number = 0
+        # Pobierz unikalny numer (unikaj duplikatów)
+        preferred_number = api_player.get("number") or 0
+        unique_number = self.get_unique_number(backend_club_id, preferred_number)
         
         position = self.map_position(api_player.get("position"))
         
         return {
             "name": first_name,
             "surname": surname,
-            "number": number,
+            "number": unique_number,
             "position": position,
             "clubId": backend_club_id,
             "_api_id": api_player.get("id")
