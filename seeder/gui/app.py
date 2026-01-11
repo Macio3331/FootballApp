@@ -630,7 +630,7 @@ class FootballSeederApp:
                     )
                     
                     if backend_id:
-                        self.data_mapper.register_match_mapping(api_id, backend_id)
+                        self.data_mapper.register_match_mapping(api_id, backend_id, player_ids)
                         self.stats["matches"] += 1
                         self._update_stats()
                 
@@ -646,13 +646,14 @@ class FootballSeederApp:
                         break
                     
                     events = self.football_client.get_fixture_events(api_fixture_id)
+                    match_player_ids = self.data_mapper.match_players.get(api_fixture_id, [])
                     
                     for event in events:
                         if self.should_stop:
                             break
                         
-                        goal_data = self.data_mapper.map_goal(event, backend_match_id)
-                        if goal_data and goal_data["scorerId"]:
+                        goal_data = self.data_mapper.map_goal(event, backend_match_id, match_player_ids)
+                        if goal_data and goal_data["scorerId"] and goal_data["assistantId"]:
                             backend_id = self.backend_client.create_goal(
                                 goal_data["minute"],
                                 goal_data["ownGoal"],

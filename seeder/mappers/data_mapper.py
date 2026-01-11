@@ -19,6 +19,9 @@ class DataMapper:
         
         # Śledzenie użytych numerów w klubach (backend_club_id -> set of used numbers)
         self.club_used_numbers: Dict[int, set] = {}
+        
+        # Mapowanie graczy do meczów (api_fixture_id -> lista backend_player_id)
+        self.match_players: Dict[int, List[int]] = {}
 
     def reset_mappings(self):
         """Resetuje wszystkie mapowania ID."""
@@ -27,6 +30,7 @@ class DataMapper:
         self.match_id_mapping.clear()
         self.club_players.clear()
         self.club_used_numbers.clear()
+        self.match_players.clear()
     
     def get_unique_number(self, backend_club_id: int, preferred_number: int) -> int:
         """
@@ -185,13 +189,15 @@ class DataMapper:
             "_away_api_id": away_api_id
         }
 
-    def map_goal(self, api_event: dict, backend_match_id: int) -> Optional[dict]:
+    def map_goal(self, api_event: dict, backend_match_id: int, 
+                  match_player_ids: List[int] = None) -> Optional[dict]:
         """
         Mapuje wydarzenie gola z API na format backendu.
         
         Args:
             api_event: Wydarzenie z API-Football
             backend_match_id: ID meczu w backendzie
+            match_player_ids: Lista ID graczy w meczu (do przypisania asystenta)
             
         Returns:
             Dane gola w formacie backendu lub None jeśli to nie gol
@@ -203,6 +209,12 @@ class DataMapper:
         time_info = api_event.get("time", {})
         minute = time_info.get("elapsed", 0)
         
+        # Minuta musi być 1-120 (backend waliduje)
+        if minute < 1:
+            minute = 1
+        elif minute > 120:
+            minute = 120
+        
         # Szczegóły gola
         detail = api_event.get("detail", "")
         own_goal = "Own Goal" in detail
@@ -212,12 +224,27 @@ class DataMapper:
         scorer_api_id = player_info.get("id")
         scorer_id = self.player_id_mapping.get(scorer_api_id)
         
-        # Asystent
+        if not scorer_id:
+            return None
+        
+        # Asystent - wymagany przez backend
         assist_info = api_event.get("assist", {})
         assistant_api_id = assist_info.get("id")
         assistant_id = self.player_id_mapping.get(assistant_api_id) if assistant_api_id else None
         
-        if not scorer_id:
+        # Jeśli brak asystenta, znajdź innego gracza z meczu
+        if not assistant_id and match_player_ids:
+            for player_id in match_player_ids:
+                if player_id != scorer_id:
+                    assistant_id = player_id
+                    break
+        
+        # Backend wymaga asystenta
+        if not assistant_id:
+            return None
+        
+        # Asystent nie może być tym samym graczem co strzelec
+        if assistant_id == scorer_id:
             return None
         
         return {
@@ -275,9 +302,11 @@ class DataMapper:
                 self.club_players[backend_club_id] = []
             self.club_players[backend_club_id].append(backend_id)
 
-    def register_match_mapping(self, api_id: int, backend_id: int):
-        """Rejestruje mapowanie ID meczu."""
+    def register_match_mapping(self, api_id: int, backend_id: int, player_ids: List[int] = None):
+        """Rejestruje mapowanie ID meczu i graczy."""
         self.match_id_mapping[api_id] = backend_id
+        if player_ids:
+            self.match_players[api_id] = player_ids
     
     def get_players_for_match(self, home_club_id: int, away_club_id: int, 
                                min_players: int = 22, max_players: int = 32) -> List[int]:
