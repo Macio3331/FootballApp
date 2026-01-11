@@ -224,13 +224,25 @@ class DataMapper:
         scorer_api_id = player_info.get("id")
         scorer_id = self.player_id_mapping.get(scorer_api_id)
         
-        if not scorer_id:
+        # Sprawdź czy strzelec grał w meczu, jeśli nie - wybierz losowego
+        if match_player_ids:
+            if not scorer_id or scorer_id not in match_player_ids:
+                # Wybierz pierwszego dostępnego gracza z meczu jako strzelca
+                if match_player_ids:
+                    scorer_id = match_player_ids[0]
+                else:
+                    return None
+        elif not scorer_id:
             return None
         
         # Asystent - wymagany przez backend
         assist_info = api_event.get("assist", {})
         assistant_api_id = assist_info.get("id")
         assistant_id = self.player_id_mapping.get(assistant_api_id) if assistant_api_id else None
+        
+        # Sprawdź czy asystent z API grał w meczu
+        if assistant_id and match_player_ids and assistant_id not in match_player_ids:
+            assistant_id = None  # Zresetuj, żeby znaleźć innego
         
         # Jeśli brak asystenta, znajdź innego gracza z meczu
         if not assistant_id and match_player_ids:
