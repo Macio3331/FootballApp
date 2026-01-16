@@ -1,7 +1,7 @@
 """Mapowanie danych z API-Football na format backendu."""
 
 from typing import Dict, List, Optional, Tuple
-from config import POSITION_MAPPING, DETAILED_POSITION_MAPPING
+from seeder.config import POSITION_MAPPING, DETAILED_POSITION_MAPPING
 
 
 class DataMapper:

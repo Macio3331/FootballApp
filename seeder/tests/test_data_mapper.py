@@ -1,4 +1,4 @@
-from mappers.data_mapper import DataMapper
+from seeder.mappers.data_mapper import DataMapper
 import pytest
 
 
