@@ -20,7 +20,7 @@ jobs:
           python-version: "3.11"
 
       - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=seeder" >> $GITHUB_ENV
+        run: echo "PYTHONPATH=." >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -31,7 +31,6 @@ jobs:
             pip install pytest
           fi
 
-      - name: Run tests
-        working-directory: seeder
+      - name: Run tests 
         run: |
-          pytest tests
+          pytest seeder/tests
