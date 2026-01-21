@@ -1,5 +1,5 @@
-import React, { Children } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import ScrollToTop from "./components/general/ScrollToTop";
 import Clubs from "./pages/clubs/Clubs";

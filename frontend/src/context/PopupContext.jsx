@@ -1,8 +1,6 @@
 import {
-  ReactNode,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { PopupMessage } from "../models/popups/PopupMessage";

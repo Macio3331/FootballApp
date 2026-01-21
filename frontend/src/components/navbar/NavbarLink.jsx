@@ -1,8 +1,7 @@
-import Reactfrom, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "../../helpers/helpers";
 import CustomButton from "../general/CustomButton";
 import { NavLink, useLocation } from "react-router-dom";
-import React from "react";
 
 function NavbarLink({ data, className }) {
   const { pathname } = useLocation();

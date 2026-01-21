@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { usePopupContext } from "../../context/PopupContext";
 import PopupCard from "./PopupCard";
 

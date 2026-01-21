@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSettingsContext } from "../../context/SettingsContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { GoX } from "react-icons/go";

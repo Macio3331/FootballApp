@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useFetchArrayData } from "../../hooks/useFetchArrayData";
 import LoadingBar from "../general/LoadingBar";
 import CustomButton from "../general/CustomButton";
