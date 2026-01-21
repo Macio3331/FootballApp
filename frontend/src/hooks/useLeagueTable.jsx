@@ -29,7 +29,7 @@ export const useLeagueTable = (apiUrl) => {
       setIsPending(false);
     };
     loadData();
-  }, [globalReload, apiUrl]);
+  }, [globalReload, apiUrl, setGlobalReload, logError]);
 
   return { data, isPending };
 };
