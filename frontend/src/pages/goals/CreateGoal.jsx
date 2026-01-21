@@ -5,7 +5,6 @@ import { usePopupContext } from "../../context/PopupContext";
 import api from "../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import SelectContainer from "../../components/containers/SelectContainer";
-import ClubCard from "../../components/containers/cards/ClubCard";
 import PlayerCard from "../../components/containers/cards/PlayerCard";
 import GameCard from "../../components/containers/cards/GameCard";
 
@@ -39,7 +38,7 @@ function CreateGoal({ edit }) {
     if (edit && id) {
       fetchData();
     }
-  }, [edit, id]);
+  }, [edit, id, logError]);
 
   const onSubmit = async (e) => {
     e.preventDefault();

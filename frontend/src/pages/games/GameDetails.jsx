@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailsPageWrapper from "../DetailsPageWrapper";
 import GameCard from "../../components/containers/cards/GameCard";
@@ -38,7 +38,7 @@ function GameDetails() {
       }
     };
     loadDetails();
-  }, [data]);
+  }, [data, logError]);
 
   const onDelete = async () => {
     try {

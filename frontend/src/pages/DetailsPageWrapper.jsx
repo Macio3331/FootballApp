@@ -1,6 +1,6 @@
 import React from "react";
 import LoadingBar from "../components/general/LoadingBar";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import CustomButton from "../components/general/CustomButton";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";

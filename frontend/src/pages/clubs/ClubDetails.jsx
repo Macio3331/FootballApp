@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailsPageWrapper from "../DetailsPageWrapper";
 import ClubCard from "../../components/containers/cards/ClubCard";
@@ -34,7 +34,7 @@ function ClubDetails() {
       }
     };
     loadDetails();
-  }, [data]);
+  }, [data, logError]);
 
   const onDelete = async () => {
     try {

@@ -1,14 +1,12 @@
-import React, { useDebugValue, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailsPageWrapper from "../DetailsPageWrapper";
 import GoalCard from "../../components/containers/cards/GoalCard";
 import { fetchGoalDetails } from "../../hooks/fetchGoalDetails";
 import { usePopupContext } from "../../context/PopupContext";
 import { useFetchData } from "../../hooks/useFetchData";
-import ScrollableNavContainer from "../../components/containers/ScrollableNavContainer";
 import api from "../../api/api";
 import GameCard from "../../components/containers/cards/GameCard";
-import ClubCard from "../../components/containers/cards/ClubCard";
 import NavCard from "../../components/containers/NavCard";
 import PlayerCard from "../../components/containers/cards/PlayerCard";
 
@@ -36,7 +34,7 @@ function GoalDetails() {
       }
     };
     loadDetails();
-  }, [data]);
+  }, [data, logError]);
 
   const onDelete = async () => {
     try {

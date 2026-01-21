@@ -49,7 +49,7 @@ function CreateGame({ edit }) {
     if (edit && id) {
       fetchData();
     }
-  }, [edit, id]);
+  }, [edit, id, logError]);
 
   const onSubmit = async (e) => {
     e.preventDefault();

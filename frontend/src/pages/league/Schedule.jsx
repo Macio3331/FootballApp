@@ -2,7 +2,6 @@ import React from "react";
 import PageWrapper from "../PageWrapper";
 import NavContainer from "../../components/containers/NavContainer";
 import GameCard from "../../components/containers/cards/GameCard";
-import { useLeagueTable } from "../../hooks/useLeagueTable";
 import { useFetchArrayData } from "../../hooks/useFetchArrayData";
 
 function Schedule() {
